@@ -1,0 +1,132 @@
+{% extends "frontstage.html" %}
+{% block head %}
+{{ super() }}
+{% endblock head %}
+
+{% block title %}遊戲列表{% endblock title%}
+
+{% block content%}
+<br/>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+  
+<script language="javascript">
+
+  alert('您沒有管理員的權限喔！');
+
+</script>
+
+{% endif %}
+{% endwith %}
+
+<div class="book_table container-xxl">
+
+  <form class="d-flex col-sm-4" action="{{ url_for('bookstore.bookstore', keyword=1) }}">
+    <div class="input-group">
+    <span class="input-group-text" id="basic-addon1">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+      </svg>
+    </span>
+    <input name='keyword' class="form-control me-2" type="search" placeholder="搜尋遊戲" aria-label="Search">
+    </div>
+  </form><br/>
+  <form method="post" action={{ url_for('bookstore.cart') }}>
+
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="padding-bottom:30px">
+      <ol class="carousel-indicators" >
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner" style="height:300px">
+        <div class="carousel-item active">
+          <img class="d-block w-100" src="../static/img/1.jpeg" alt="First slide">
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100" src="../static/img/top.jpg" alt="Second slide">
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100" src="../static/img/2-2.jpeg" alt="Third slide">
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+
+      {% for book in book_data %}
+      {% if loop.index % 3 == 1 %}
+      <div class="row">
+      {% endif %}
+      
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{book.遊戲名稱}}</h5>
+              <p class="card-text">${{book.售價}}</p>
+              
+              <a href="{{ url_for('bookstore.bookstore', pid=book.遊戲編號) }}" class="btn btn-outline-secondary">查看遊戲資訊</a>
+              <button class="btn btn-outline-secondary" type="submit" value="{{book.遊戲編號}}" name="pid" >加入購物車</button>
+            </div>
+          </div>
+        </div>
+
+        {% if loop.index % 3 == 0 %}
+        </div><br/>
+        {% endif %}
+            
+      {% endfor %}
+    </table>
+  </form>
+
+
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      {% if page == 1 %}
+      <li class="page-item disabled">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      {% else %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_for('bookstore.bookstore', page=page-1) }}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      {% endif %}
+      {% for i in range(1, count+1) %}
+      {% if single == 1 %}
+      <li class="page-item"><a class="page-link" href="{{ url_for('bookstore.bookstore', keyword=keyword, page=i) }}">{{i}}</a></li>
+      {% else %}
+      <li class="page-item"><a class="page-link" href="{{ url_for('bookstore.bookstore', page=i) }}">{{i}}</a></li>
+      {% endif %}
+      {% endfor %}
+      {% if flag == 1 %}
+      <li class="page-item disabled">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      {% else %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_for('bookstore.bookstore', page=page+1) }}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+
+
+
+</div>
+
+{% endblock content%}

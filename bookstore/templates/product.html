@@ -1,0 +1,55 @@
+{% extends "frontstage.html" %}
+{% block head %}
+{{ super() }}
+{% endblock head %}
+
+{% block title %}iGAME遊戲平台{% endblock title%}
+
+{% block content %}
+
+{% set temp = 'img/' + data.遊戲圖片 %}
+
+<br/>
+
+<div class="col-md-12" >
+  <form method="post" action={{ url_for('bookstore.cart') }}>
+<div class="card" style="margin-top:50px ">
+  <h5 class="card-header">遊戲名稱</h5>
+  <div class="card-body">
+    <p class="card-text">
+      {{data.遊戲名稱}}
+    </p>
+  </div>
+  <h5 class="card-header">遊戲類型</h5>
+  <div class="card-body">
+    <p class="card-text">
+      {{data.遊戲類型}}
+    </p>
+  </div>
+  <h5 class="card-header">遊戲介紹</h5>
+  <div class="card-body">
+    <p class="card-text">
+      {{data.遊戲敘述}}
+    </p>
+    
+  </div>
+  <h5 class="card-header">遊戲售價</h5>
+  <div class="card-body">
+    <p class="card-text">
+      {{data.售價}}
+    </p>
+    <a href="{{ url_for('bookstore.bookstore') }}" class="btn btn-outline-secondary">回遊戲列表</a>
+    <button class="btn btn-outline-secondary" type="submit" value="{{data.遊戲編號}}" name="pid">加入購物車</a>
+    
+  </div>
+
+  
+</div>
+</form>
+</div>
+
+
+</div>
+
+
+{% endblock content%}

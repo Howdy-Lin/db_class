@@ -1,0 +1,51 @@
+{% extends "frontstage.html" %}
+{% block head %}
+{{ super() }}
+{% endblock head %}
+
+{% block title %} 線上客服 {% endblock title%}
+
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages[0] == 'No permission' %}
+  
+<script language="javascript">
+  alert('您沒有使用者的權限喔！');
+</script>
+
+{% endif %}
+{% endwith %}
+<div class="container-xl">
+  <center>
+  <br>
+  <h2>線上客服</h2>
+  <br><br>
+
+  <form action="{{ url_for('bookstore.custom_complete') }}" method="post">
+    <label for="question_type">問題類型</label> 
+    <select id="question_type" name="question_type">
+      <option selected disabled>選擇問題類型</option>
+      <option>帳號問題</option>
+      <option>商品問題</option>
+      <option>訂單問題</option>
+      <option>意見回饋</option>
+      
+    </select>
+
+    <br><br>
+
+    <label for="question_description">描述</label><br>
+    <textarea id="question_description" name="question_description" rows="5" cols="50" placeholder="請輸入您的問題描述" required="1"></textarea>
+
+    <br><br><br><br><br>
+
+    
+    <button class="btn btn-outline-secondary" type="submit" value="edit" name="user_edit" style="margin-right: 20px;">送出</button>
+    <button class="btn btn-outline-secondary" type="reset" value="edit" name="user_edit" >重設</button>
+    
+  </form>
+</center>
+</div>
+
+{% endblock content%}
