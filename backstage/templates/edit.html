@@ -1,0 +1,69 @@
+{% extends "backstage.html" %}
+{% block head %}
+{{ super() }}
+
+{% endblock head %}
+
+{% block title %}iGAME遊戲平台{% endblock title%}
+
+{% block content%}
+
+
+<br/>
+<div class="container-xl">
+  <br/>
+  <form method="post" enctype=multipart/form-data action={{ url_for('manager.edit') }}>
+    <table class="table table-bordered">
+      <tr>
+        <th>遊戲編號</th>
+        <td><input class="form-control" type="text" value="{{ data.遊戲編號 }}" name="pid" readonly class="id_input"></td>
+      </tr>
+      <tr>
+        <th>遊戲名稱</th>
+        <td><input class="form-control" type="text" value="{{ data.遊戲名稱 }}" name="name" required></td>
+      </tr>
+      <tr>
+        <th>售價</th>
+        <td><input class="form-control" type="text" value="{{ data.售價 }}" name="price" required></td>
+      </tr>
+      <tr>
+        <th>遊戲類型</th>
+        <td>
+          <select class="form-control" name="category">
+            {% if data.類別 == '動作冒險' %}
+              <option value="動作冒險">動作冒險</option>
+              <option value="休閒娛樂">休閒娛樂</option>
+              <option value="角色扮演" selected>角色扮演</option>
+            {% elif data.類別 == '休閒娛樂' %}
+              <option value="動作冒險">動作冒險</option>
+              <option value="休閒娛樂" selected>休閒娛樂</option>
+              <option value="角色扮演">角色扮演</option>
+            {% else %}
+              <option value="動作冒險" selected>動作冒險</option>
+              <option value="休閒娛樂">休閒娛樂</option>
+              <option value="角色扮演">角色扮演</option>
+            {% endif %}
+            
+        </select>
+      </tr>
+      <tr>
+        <th>遊戲敘述</th>
+        <td>
+          <textarea class="form-control" name="description">{{ data.遊戲敘述 }}</textarea>
+        </td>
+      </tr>
+
+    </table>
+    <center>
+      <div class="option">
+        <button class="btn btn-outline-secondary" type="submit">確定修改</button> 
+        <a href="{{ url_for('manager.productManager') }}"><button class="btn btn-outline-secondary">回商品管理</button></a>
+      </div>
+    </center>
+
+  </form>
+</div>
+
+
+
+{% endblock content%}
